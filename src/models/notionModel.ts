@@ -1,9 +1,16 @@
 import notion from "../notion";
-import NotionObject from "../common/types/notionObject.type";
-import NotionError from "../common/types/notionError.type";
+import {CreateDatabaseResponse, ListBlockChildrenResponse} from '@notionhq/client/build/src/api-endpoints';
 
 export default class NotionModel {
-  static async createNotionDatabase(pageId: string): Promise<NotionObject | NotionError> {
+
+  static async getNotionPageContents(pageId: string): Promise<ListBlockChildrenResponse> {
+    return await notion.blocks.children.list({
+      block_id: pageId,
+      page_size: 10,
+    });
+  }
+
+  static async createNotionDatabase(pageId: string): Promise<CreateDatabaseResponse> {
     return await notion.databases.create({
       parent: {
         type: "page_id",

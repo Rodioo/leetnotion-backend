@@ -5,6 +5,8 @@ const app = express();
 
 app.use(express.json());
 
-app.use('/notion', notionRouter);
+const BASE_API_ENDPOINT = '/api/v1'
+
+app.use(`${BASE_API_ENDPOINT}/notion`, notionRouter);
 
 export default app;

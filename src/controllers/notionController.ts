@@ -1,19 +1,25 @@
 import { Request, Response } from 'express';
 import NotionModel from "../models/notionModel";
-import {isNotionError, isNotionObject} from "../common/utils/notionUtils";
+import {APIResponseError} from '@notionhq/client';
 
 export const createNotionDatabase = (req: Request, res: Response): void => {
-  const pageId: string = "6ede119cde884cf896022cab02e63cdd"
+  const pageId = "6ede119cde884cf896022cab02e63cdd"
   NotionModel.createNotionDatabase(pageId)
     .then((response) => {
-      console.log(response)
-      if (isNotionObject(response)) {
-        res.status(200).json(response)
-      } else if (isNotionError(response)) {
-        res.status(response.status).json(response)
-      }
+      res.status(200).json(response)
     })
-    .catch((error) => {
-      console.log(error)
+    .catch((error: APIResponseError) => {
+      res.status(error.status).json(error)
+    })
+};
+
+export const getNotionPageContents = (req: Request, res: Response): void => {
+  const pageId = "6ede119cde884cf896022cab02e63cdd"
+  NotionModel.getNotionPageContents(pageId)
+    .then((response) => {
+      res.status(200).json(response)
+    })
+    .catch((error: APIResponseError) => {
+      res.status(error.status).json(error)
     })
 };
