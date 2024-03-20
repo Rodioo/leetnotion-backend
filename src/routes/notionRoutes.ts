@@ -1,10 +1,15 @@
 import express from 'express';
-import {createNotionDatabase, getNotionPageContents} from '../controllers/notionController';
+import {
+  createDatabase,
+  createPage,
+  getPageContents,
+} from '../controllers/notionController';
 
 const notionRouter = express.Router();
 
-notionRouter.get('/pageContents', getNotionPageContents)
+notionRouter.get('/pageContents', getPageContents);
 
-notionRouter.post('/database', createNotionDatabase);
+notionRouter.post('/database', createDatabase);
+notionRouter.post('/page', createPage);
 
 export default notionRouter;
